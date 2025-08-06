@@ -1,0 +1,6 @@
+FROM ubuntu:latest
+RUN apt-get update
+WORKDIR /src
+COPY scripts/log.sh .
+RUN chmod +x log.sh
+CMD ["bash", "log.sh"]
