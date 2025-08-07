@@ -172,3 +172,32 @@ CONTAINER ID   IMAGE           COMMAND         CREATED              STATUS      
 5a29b1b1620c   monitor-image   "bash log.sh"   About a minute ago   Up About a minute             system-monitor
 teme@vm2:~/git-projects/proiect$ docker logs system-backup
 2025-08-06 13:21:54,386 - ERROR - Te rog sa specifici calea catre fisier!!!
+
+
+
+
+
+
+ANSIBLE
+
+Am instalat o noua masina virtuala, cu aceleasi caracteristici ca masina main.
+Pasi de configurare:
+1. verificam daca pe masina main avem generata o cheie publica cu comanda: ls ~/.ssh/id_rsa.pub
+teme@vm2:~/git-projects/proiect$ ls ~/.ssh/id_rsa.pub
+/home/teme/.ssh/id_rsa.pub
+2. verificam si pe masina remote daca avem generata o cheie publica: ls ~/.ssh/id_rsa.pub
+ansible@ansible:~$ ls ~/.ssh/id_rsa.pub
+ls: cannot access '/home/ansible/.ssh/id_rsa.pub': No such file or directory
+3. ppe masina remote nu este generata nicio cheie publica, generam cheia:
+ansible@ansible:~$ ssh-keygen
+Generating public/private rsa key pair.
+Enter file in which to save the key (/home/ansible/.ssh/id_rsa): 
+Created directory '/home/ansible/.ssh'.
+Enter passphrase (empty for no passphrase): 
+Enter same passphrase again: 
+Your identification has been saved in /home/ansible/.ssh/id_rsa
+Your public key has been saved in /home/ansible/.ssh/id_rsa.pub
+The key fingerprint is:
+
+Instalam serviciul sshd pe masina remote pentru a putea stabili comunicare ssh intre cele doua masina: 
+
