@@ -173,10 +173,163 @@ CONTAINER ID   IMAGE           COMMAND         CREATED              STATUS      
 teme@vm2:~/git-projects/proiect$ docker logs system-backup
 2025-08-06 13:21:54,386 - ERROR - Te rog sa specifici calea catre fisier!!!
 
+Am modificat Dockerfile-backup:
+FROM python
+WORKDIR /src
+COPY scripts/backup.py .
+ENV BACKUP_INTERVAL=5
+ENV BACKUP_DIR_PATH=backup
+CMD ["python", "backup.py", "system-state.log"], in CMD am adaugat si fisierul caruia i se face backup si am rezolvat eroarea
+teme@vm2:~/git-projects/proiect$ docker build -t monitor-image -f Dockerfile-monitor .
+[+] Building 0.1s (1/1) FINISHED                                                                                                                                                             docker:default
+ => [internal] load build definition from Dockerfile-monitor                                                                                                                                           0.0s
+ => => transferring dockerfile: 2B                                                                                                                                                                     0.0s
+ERROR: failed to build: failed to solve: failed to read dockerfile: open Dockerfile-monitor: no such file or directory
+teme@vm2:~/git-projects/proiect$ docker build -t monitor-image -f docker/Dockerfile-monitor .
+[+] Building 2.0s (10/10) FINISHED                                                                                                                                                           docker:default
+ => [internal] load build definition from Dockerfile-monitor                                                                                                                                           0.0s
+ => => transferring dockerfile: 160B                                                                                                                                                                   0.0s
+ => [internal] load metadata for docker.io/library/ubuntu:latest                                                                                                                                       1.1s
+ => [internal] load .dockerignore                                                                                                                                                                      0.0s
+ => => transferring context: 2B                                                                                                                                                                        0.0s
+ => [1/5] FROM docker.io/library/ubuntu:latest@sha256:a08e551cb33850e4740772b38217fc1796a66da2506d312abe51acda354ff061                                                                                 0.0s
+ => [internal] load build context                                                                                                                                                                      0.0s
+ => => transferring context: 745B                                                                                                                                                                      0.0s
+ => CACHED [2/5] RUN apt-get update                                                                                                                                                                    0.0s
+ => CACHED [3/5] WORKDIR /src                                                                                                                                                                          0.0s
+ => [4/5] COPY scripts/log.sh .                                                                                                                                                                        0.1s
+ => [5/5] RUN chmod +x log.sh                                                                                                                                                                          0.5s
+ => exporting to image                                                                                                                                                                                 0.1s
+ => => exporting layers                                                                                                                                                                                0.1s
+ => => writing image sha256:63dd09036c091a4a0c3ac0fe85f4bdb4a4bb6eb43cdfc1f3b82869f393b6b42a                                                                                                           0.0s
+ => => naming to docker.io/library/monitor-image                                                                                                                                                       0.0s
+teme@vm2:~/git-projects/proiect$ docker build -t backup-image -f docker/Dockerfile-backup .
+[+] Building 5.6s (8/8) FINISHED                                                                                                                                                             docker:default
+ => [internal] load build definition from Dockerfile-backup                                                                                                                                            0.0s
+ => => transferring dockerfile: 192B                                                                                                                                                                   0.0s
+ => [internal] load metadata for docker.io/library/python:latest                                                                                                                                       1.9s
+ => [internal] load .dockerignore                                                                                                                                                                      0.0s
+ => => transferring context: 2B                                                                                                                                                                        0.0s
+ => [1/3] FROM docker.io/library/python:latest@sha256:68d0775234842868248bfe185eece56e725d3cb195f511a21233d0f564dee501                                                                                 3.2s
+ => => resolve docker.io/library/python:latest@sha256:68d0775234842868248bfe185eece56e725d3cb195f511a21233d0f564dee501                                                                                 0.0s
+ => => sha256:c2d8038fe0719799a42e436e8e51920f537b2c3518449fcb753d69509057daf6 2.32kB / 2.32kB                                                                                                         0.0s
+ => => sha256:3e7f48ebe9d8b258a2c0273be4a8af2fb855a201ff384de4d1534761c7f4e103 6.32kB / 6.32kB                                                                                                         0.0s
+ => => sha256:505bcd5de71db2becc8dafff688d0812a3c5df8eca1e85d6158e3957b14e0498 251B / 251B                                                                                                             0.4s
+ => => sha256:66d01326c43588e03963922f1698cb99403558cf7e64a79d9da93e6edf9c5899 6.16MB / 6.16MB                                                                                                         1.0s
+ => => sha256:fb5f775313f04521fd0f937e04bdb9e2583276f9c2e275447005a2968c57318d 27.40MB / 27.40MB                                                                                                       1.5s
+ => => sha256:68d0775234842868248bfe185eece56e725d3cb195f511a21233d0f564dee501 9.72kB / 9.72kB                                                                                                         0.0s
+ => => extracting sha256:66d01326c43588e03963922f1698cb99403558cf7e64a79d9da93e6edf9c5899                                                                                                              0.6s
+ => => extracting sha256:fb5f775313f04521fd0f937e04bdb9e2583276f9c2e275447005a2968c57318d                                                                                                              1.3s
+ => => extracting sha256:505bcd5de71db2becc8dafff688d0812a3c5df8eca1e85d6158e3957b14e0498  
+  => [internal] load build context                                                                                                                                                                      0.0s
+ => => transferring context: 2.36kB                                                                                                                                                                    0.0s
+ => [2/3] WORKDIR /src                                                                                                                                                                                 0.3s
+ => [3/3] COPY scripts/backup.py .                                                                                                                                                                     0.1s
+ => exporting to image                                                                                                                                                                                 0.1s
+ => => exporting layers                                                                                                                                                                                0.0s
+ => => writing image sha256:b98a023655011ffd90e9a935908602a335c9c0b4d720dd4a1897347a05d15dcb                                                                                                           0.0s
+ => => naming to docker.io/library/backup-image                                                                                                                                                        0.0s
+teme@vm2:~/git-projects/proiect$ docker images
+REPOSITORY        TAG       IMAGE ID       CREATED          SIZE
+backup-image      latest    b98a02365501   3 seconds ago    1.02GB
+monitor-image     latest    63dd09036c09   27 seconds ago   130MB
+checklog-image    latest    1238af44988a   3 days ago       1GB
+buna              latest    5f6cfed4e499   2 weeks ago      1.02GB
+jenkins/jenkins   lts       627182afbe2b   2 weeks ago      472MB
+alpine            latest    9234e8fb04c4   3 weeks ago      8.31MB
+nginx             latest    2cd1d97f893f   3 weeks ago      192MB
+hello-world       latest    74cc54e27dc4   6 months ago     10.1kB
+
+Pornim containere carora le dam si un nume pentru a fi mai usor e gestionat
+
+teme@vm2:~/git-projects/proiect$ docker run -d --name system-monitor monitor-image
+a5e47f70c7cd4c5bbee6b49b60be8aaafb1fb74c7dec408900367735708354fb
+teme@vm2:~/git-projects/proiect$ docker run -d --name system-backup backup-image
+d162fa158a5d3e9c51a32a32c2c31e6a46dfd8609ecacc30157ba6675918a95f
+teme@vm2:~/git-projects/proiect$ docker ps
+CONTAINER ID   IMAGE           COMMAND                  CREATED          STATUS          PORTS     NAMES
+d162fa158a5d   backup-image    "python backup.py sy…"   2 seconds ago    Up 2 seconds              system-backup
+a5e47f70c7cd   monitor-image   "bash log.sh"            15 seconds ago   Up 14 seconds             system-monitor
+teme@vm2:~/git-projects/proiect$ docker logs system-backup
+2025-08-10 13:07:23,587 - WARNING - Directorul backup nu exista. Il creez..
+
+Rularea docker compose:
+
+teme@vm2:~/git-projects/proiect$ docker-compose -f docker/docker-compose.yml up -d
+system-monitor is up-to-date
+Creating system-backup ... done
+teme@vm2:~/git-projects/proiect$ docker ps -a 
+CONTAINER ID   IMAGE                 COMMAND                  CREATED          STATUS                           PORTS                                     NAMES
+63ed923040a1   backup-image          "python backup.py sy…"   7 seconds ago    Exited (2) 6 seconds ago                                                   system-backup
+43cc2ed09e29   monitor-image         "bash log.sh"            11 minutes ago   Up 11 minutes                                                              system-monitor
+920d00b3d010   jenkins/jenkins:lts   "/usr/bin/tini -- /u…"   42 hours ago     Exited (143) About an hour ago                                             jenkins
+4b14a5c27034   checklog-image        "python analise-logs…"   3 days ago       Exited (1) 3 days ago                                                      exciting_leavitt
+9faff64a9215   checklog-image        "python analise-logs…"   3 days ago       Exited (2) 3 days ago                                                      elastic_poitras
+6365d97281d5   0673847ec646          "python analise-logs…"   3 days ago       Exited (1) 3 days ago                                                      musing_mendel
+82d517f742be   0673847ec646          "python analise-logs…"   3 days ago       Exited (1) 3 days ago                                                      modest_hoover
+0bcc7ca1b096   0673847ec646          "python analise-logs…"   3 days ago       Exited (1) 3 days ago                                                      vibrant_chaum
+45c213c7ce67   0673847ec646          "python analise-logs…"   3 days ago       Exited (1) 3 days ago                                                      cool_mendel
+48eb2d916174   buna:latest           "python script.py di…"   2 weeks ago      Exited (0) 2 weeks ago                                                     epic_brahmagupta
+9e6f3089463e   a44a288defe1          "python script.py di…"   2 weeks ago      Exited (2) 2 weeks ago                                                     beautiful_black
+cb4e15bb2d76   a44a288defe1          "python script.py di…"   2 weeks ago      Exited (2) 2 weeks ago                                                     funny_cerf
+dd9535881a3d   a44a288defe1          "python script.py di…"   2 weeks ago      Exited (2) 2 weeks ago                                                     serene_gates
+5933f7fbd0bd   a44a288defe1          "python script.py"       2 weeks ago      Exited (2) 2 weeks ago                                                     goofy_pasteur
+827d0d76225b   nginx                 "/docker-entrypoint.…"   2 weeks ago      Exited (255) 6 days ago          0.0.0.0:8082->80/tcp, [::]:8082->80/tcp   frontend
+0dbf296a7ede   alpine                "sh"                     2 weeks ago      Exited (255) 6 days ago                                                    backend
+6c6ca8f06c1b   hello-world           "/hello"                 2 weeks ago      Exited (0) 2 weeks ago                                                     pensive_euclid
+9439dc42afb0   hello-world           "/hello"                 2 weeks ago      Exited (0) 2 weeks ago                                                     upbeat_gould
+86a3ae492195   hello-world           "/hello"                 2 weeks ago      Exited (0) 2 weeks ago                                                     busy_hypatia
+teme@vm2:~/git-projects/proiect$ docker logs system-backup
+python: can't open file '/src/backup.py': [Errno 2] No such file or directory
 
 
+Am consultat documentatia in incercarea de a rezolva eroarea: 
 
+https://docs.docker.com/reference/compose-file/build/
 
+dupa ce am modificat docker-compose am recreat imaginile si am pornit containerele
+teme@vm2:~/git-projects/proiect$ docker-compose -f docker/docker-compose.yml up -d
+Creating network "docker_default" with the default driver
+Creating docker_sytem-backup_1  ... done
+Creating docker_sytem-monitor_1 ... done
+teme@vm2:~/git-projects/proiect$ docker ps
+CONTAINER ID   IMAGE           COMMAND                  CREATED         STATUS         PORTS     NAMES
+536ab870de2f   monitor-image   "bash log.sh"            5 seconds ago   Up 4 seconds             docker_sytem-monitor_1
+5b2378b3bca0   backup-image    "python backup.py sy…"   5 seconds ago   Up 4 seconds             docker_sytem-backup_1
+teme@vm2:~/git-projects/proiect$ tree
+.
+├── ansible
+│   └── inventory.ini
+├── docker
+│   ├── docker-compose.yml
+│   ├── Dockerfile-backup
+│   ├── Dockerfile-monitor
+│   └── scripts
+├── jenkins
+│   └── setup
+│       ├── docker-compose.yml
+│       └── start-jenkins.sh
+├── README.md
+├── scripts
+│   ├── backup
+│   │   ├── log.sh.2025-08-10-15-55-30.backup
+│   │   ├── system-state.log.2025-08-05-16-52-35.backup
+│   │   ├── system-state.log.2025-08-10-14-13-09.backup
+│   │   ├── system-state.log.2025-08-10-14-13-14.backup
+│   │   ├── system-state.log.2025-08-10-14-13-19.backup
+│   │   ├── system-state.log.2025-08-10-14-13-24.backup
+│   │   ├── system-state.log.2025-08-10-14-13-29.backup
+│   │   ├── system-state.log.2025-08-10-14-13-34.backup
+│   │   ├── system-state.log.2025-08-10-14-13-45.backup
+│   │   ├── system-state.log.2025-08-10-14-13-50.backup
+│   │   └── system-state.log.2025-08-10-14-13-55.backup
+│   ├── backup.py
+│   ├── log.sh
+│   └── system-state.log
+└── terraform
+
+si le-am si oprit pentru ca se genereau f mult fisirele de backup
+docker-compose -f docker/docker-compose.yml down
 
 ANSIBLE
 
@@ -199,5 +352,5 @@ Your identification has been saved in /home/ansible/.ssh/id_rsa
 Your public key has been saved in /home/ansible/.ssh/id_rsa.pub
 The key fingerprint is:
 
-Instalam serviciul sshd pe masina remote pentru a putea stabili comunicare ssh intre cele doua masina: 
+Instalam serviciul ssh pe masina remote pentru a putea stabili comunicare ssh intre cele doua masina: 
 

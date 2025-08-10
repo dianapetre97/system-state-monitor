@@ -8,6 +8,8 @@ import time
 
 # Configuram logging-ul
 logging.basicConfig(level=logging.DEBUG, format="%(asctime)s - %(levelname)s - %(message)s")
+
+#Din linia de comanda citim calea catre fisier
 if len(sys.argv) <2:
     logging.error("Te rog sa specifici calea catre fisier!!!")
     sys.exit(1)
@@ -17,7 +19,9 @@ if not file_path:
     logging.error("Variabila FILE_PATH nu e setata.")
     sys.exit(1)
 
+#citim variabilele de mediu, numele directorului si intervalul de backup
 backup_dir_path = os.getenv("BACKUP_DIR_PATH", "backup")
+backup_interval = int(os.getenv("BACKUP_INTERVAL", 5))
 
 if not os.path.isdir(backup_dir_path):
     logging.warning(f"Directorul {backup_dir_path} nu exista. Il creez..")
@@ -61,4 +65,4 @@ def backup(file_path):
 
 while True:
     backup(file_path)
-    time.sleep(5)
+    time.sleep(backup_interval)
