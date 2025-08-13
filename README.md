@@ -84,11 +84,12 @@ Verificam daca este pornit vreun container
 teme@vm2:~/git-projects/proiect$ docker ps
 CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
 ```
-Verificam daca userul e adaugat in grupul docker, daca nu este il adaugam. Acest lucru ne ajuta sa rulam comenzile de docker fara sudo
+Verificam daca userul e adaugat in grupul docker, daca nu este il adaugam. Acest lucru ne ajuta sa rulam comenzile de docker fara sudo 
 ```
 teme@vm2:~/git-projects/proiect$ groups
 teme sudo docker vboxsf
 ```
+Daca userul nu era adaugat in grupul docker il adaugam cu comanda: sudo usermod -aG docker teme
 Am creat 2 Dockerfile, unul pentru scriptul sh si unul pentru cel de python
 Construim imaginea cu tag-ul "monitor iamge"
 ```
