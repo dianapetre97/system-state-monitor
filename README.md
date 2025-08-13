@@ -73,6 +73,8 @@ c6633985d184cbb43f74768870521e9e
 KeyboardInterrupt
 ```
 ### Docker
+Verificam daca este instalat docker, daca nu este putem urmari pasii de instalare din documentatie: [Install Docker] (https://docs.docker.com/engine/install/ubuntu/)
+
 ```
 teme@vm2:~/git-projects/proiect$ docker --version
 Docker version 28.3.2, build 578ccf6
@@ -81,6 +83,11 @@ Verificam daca este pornit vreun container
 ```
 teme@vm2:~/git-projects/proiect$ docker ps
 CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
+```
+Verificam daca userul e adaugat in grupul docker, daca nu este il adaugam. Acest lucru ne ajuta sa rulam comenzile de docker fara sudo
+```
+teme@vm2:~/git-projects/proiect$ groups
+teme sudo docker vboxsf
 ```
 Am creat 2 Dockerfile, unul pentru scriptul sh si unul pentru cel de python
 Construim imaginea cu tag-ul "monitor iamge"
@@ -378,9 +385,14 @@ Am instalat o noua masina virtuala, cu aceleasi caracteristici ca masina main. P
 Instalam serviciul ssh pe masina remote pentru a putea stabili comunicare ssh intre cele doua masina: 
 
 Pe masina remote mai rulam si comanda: 
+```
 ansible@ansibleproiect:~$ echo "ansible ALL=(ALL) NOPASSWD:ALL" | sudo tee -a ansible-nopasswd
 ansible ALL=(ALL) NOPASSWD:ALL
+```
 ---> pentru a putea executa comanda sudo fara parola
+
+In fisierul inventory am adaugat adresa ip a masinii remote (cea cu care am facut legatura SSH) si userul acesteia
+
 ```
 ansible@ansibleproiect:~$ groups
 ansible sudo vboxsf
