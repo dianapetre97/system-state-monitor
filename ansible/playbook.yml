@@ -1,0 +1,47 @@
+- name: Install & Configure Docker
+  hosts: server
+  become: true
+  tasks:
+    - name: Update packages #(sudo apt-get update)
+      apt:
+        update_cache: yes
+    - name: Install required packages for Docker
+      apt:
+        name: 
+          - apt-transport-https
+          - ca-certificates
+          - curl
+          - gnupg2
+          - software-properties-common
+        state: present
+    - name: Add Docker GPG apt Key
+      apt_key:
+        url: https://download.docker.com/linux/ubuntu/gpg
+        state: present
+    - name: Add Docker Repository
+      apt_repository:
+        repo: deb https://download.docker.com/linux/ubuntu focal stable
+        state: present
+    - name: Ensure group "docker" exists with correct gid
+      group:
+        name: docker
+        state: present
+        gid: 1750
+    - name: Add user to the "docker" group
+      user:
+        name: "{{ ansible_user }}"
+        groups: docker
+        append: yes
+    - name: Install docker-ce
+      apt:
+        name: docker-ce
+        state: presents
+    - name: Install docker compose
+      apt:
+        name: docker-compose-plugin
+        state: present
+    - name: Run and enable docker
+      service:
+        name: docker
+        state: started
+        enabled: true
