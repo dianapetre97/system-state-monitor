@@ -4,7 +4,7 @@
 Proiectul presupune dezvoltarea unei platforme DevOps pentru monitorizarea stării unui sistem informatic folosind bash, Python, Docker, Ansible, Jenkins, AWS si Terraform. Utilizatorii vor putea observa evolutia utilizarii următoarelor resurse: cpu, memorie, număr de procese active și utilizare disk. Platforma trebuie să pastreze istoricul stării sistemelor pentru a le permite administratorilor de sistem să ia decizii legate de scalare.
 
 ## Structura proiectului
-'''
+```
 teme@vm2:~/git-projects/proiect$ tree
 .
 ├── ansible
@@ -29,7 +29,7 @@ teme@vm2:~/git-projects/proiect$ tree
 │   └── system-state.log
 └── terraform
 
-'''
+```
 Pentru fiecare cerinta am creat cate un director pentru a avea o mai buna organizare
 ## Setup si Rulare
 ### Incepem cu scriptul de bash
@@ -40,7 +40,7 @@ cat system-state.log
 Trebuie instalat python3
 teme@vm2:~/git-projects/proiect$ python3 --version
 Python 3.10.12
-'''
+```
 teme@vm2:~/git-projects/proiect/scripts$ python3 backup.py
 2025-08-05 16:52:31,020 - ERROR - Te rog sa specifici calea catre fisier!!!
 teme@vm2:~/git-projects/proiect/scripts$ python3 backup.py system-state.log 
@@ -71,20 +71,20 @@ c6633985d184cbb43f74768870521e9e
   File "/home/teme/git-projects/proiect/scripts/backup.py", line 64, in <module>
     time.sleep(5)
 KeyboardInterrupt
-'''
+```
 ### Docker
-'''
+```
 teme@vm2:~/git-projects/proiect$ docker --version
 Docker version 28.3.2, build 578ccf6
-'''
+```
 Verificam daca este pornit vreun container
-'''
+```
 teme@vm2:~/git-projects/proiect$ docker ps
 CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
-'''
+```
 Am creat 2 Dockerfile, unul pentru scriptul sh si unul pentru cel de python
 Construim imaginea cu tag-ul "monitor iamge"
-'''
+```
 teme@vm2:~/git-projects/proiect/docker$ docker build -t monitor-image -f Dockerfile-monitor .
 [+] Building 1.1s (8/9)                                                                                              docker:default
  => [internal] load build definition from Dockerfile-monitor                                                                   0.0s
@@ -144,11 +144,11 @@ teme@vm2:~/git-projects/proiect$ docker build -t monitor-image -f docker/Dockerf
  => => exporting layers                                                                                                        0.3s 
  => => writing image sha256:c5b39453beca8c21d01b4129ea1308aea75fe061226440625b9dbe82d28a6b93                                   0.0s 
  => => naming to docker.io/library/monitor-image  
-'''
+```
  Deoarece scriptul de shell se afla in alt director decat cel de docker in care am incercat prima data sa rulez comanda docker build, am iesit din director, am rulat comanda in directorul principal si am specifical directorul in care se afla docker file-ul 
 
  Verificam ca s-a construit imaginea:
- '''
+ ```
  teme@vm2:~/git-projects/proiect$ docker images
 REPOSITORY      TAG       IMAGE ID       CREATED          SIZE
 monitor-image   latest    c5b39453beca   28 seconds ago   130MB
@@ -157,9 +157,9 @@ buna            latest    5f6cfed4e499   13 days ago      1.02GB
 alpine          latest    9234e8fb04c4   3 weeks ago      8.31MB
 nginx           latest    2cd1d97f893f   3 weeks ago      192MB
 hello-world     latest    74cc54e27dc4   6 months ago     10.1kB
-'''
+```
 Vom proceda la fel si pentru imaginea scriptului de backup
-'''
+```
 teme@vm2:~/git-projects/proiect$ docker build -t backup-image -f docker/Dockerfile-backup .
 [+] Building 1.7s (8/8) FINISHED                                                                                     docker:default
  => [internal] load build definition from Dockerfile-backup                                                                    0.0s
@@ -186,9 +186,9 @@ buna            latest    5f6cfed4e499   13 days ago      1.02GB
 alpine          latest    9234e8fb04c4   3 weeks ago      8.31MB
 nginx           latest    2cd1d97f893f   3 weeks ago      192MB
 hello-world     latest    74cc54e27dc4   6 months ago     10.1kB
-'''
+```
 Rulam imaginile in detache mod si le da un nume pentru a ne fi mai usor de pornit/oprit containerele
-'''
+```
 teme@vm2:~/git-projects/proiect$ docker run -d --name system-monitor monitor-image
 5a29b1b1620cb30963a619b71fc33676c2e673e3702fa9514d1725ecb73244e1
 teme@vm2:~/git-projects/proiect$ docker ps
@@ -210,9 +210,9 @@ CONTAINER ID   IMAGE           COMMAND         CREATED              STATUS      
 5a29b1b1620c   monitor-image   "bash log.sh"   About a minute ago   Up About a minute             system-monitor
 teme@vm2:~/git-projects/proiect$ docker logs system-backup
 2025-08-06 13:21:54,386 - ERROR - Te rog sa specifici calea catre fisier!!!
-'''
+```
 Am modificat Dockerfile-backup:
-'''
+```
 FROM python
 WORKDIR /src
 COPY scripts/backup.py .
@@ -278,9 +278,9 @@ jenkins/jenkins   lts       627182afbe2b   2 weeks ago      472MB
 alpine            latest    9234e8fb04c4   3 weeks ago      8.31MB
 nginx             latest    2cd1d97f893f   3 weeks ago      192MB
 hello-world       latest    74cc54e27dc4   6 months ago     10.1kB
-'''
+```
 Pornim containere carora le dam si un nume pentru a fi mai usor e gestionat
-'''
+```
 teme@vm2:~/git-projects/proiect$ docker run -d --name system-monitor monitor-image
 a5e47f70c7cd4c5bbee6b49b60be8aaafb1fb74c7dec408900367735708354fb
 teme@vm2:~/git-projects/proiect$ docker run -d --name system-backup backup-image
@@ -291,9 +291,9 @@ d162fa158a5d   backup-image    "python backup.py sy…"   2 seconds ago    Up 2 
 a5e47f70c7cd   monitor-image   "bash log.sh"            15 seconds ago   Up 14 seconds             system-monitor
 teme@vm2:~/git-projects/proiect$ docker logs system-backup
 2025-08-10 13:07:23,587 - WARNING - Directorul backup nu exista. Il creez..
-'''
+```
 Rularea docker compose:
-'''
+```
 teme@vm2:~/git-projects/proiect$ docker-compose -f docker/docker-compose.yml up -d
 system-monitor is up-to-date
 Creating system-backup ... done
@@ -321,13 +321,13 @@ dd9535881a3d   a44a288defe1          "python script.py di…"   2 weeks ago     
 teme@vm2:~/git-projects/proiect$ docker logs system-backup
 python: can't open file '/src/backup.py': [Errno 2] No such file or directory
 
-'''
+```
 Am consultat documentatia in incercarea de a rezolva eroarea: 
 
 [Docker compose documentation] (https://docs.docker.com/reference/compose-file/build/)
 
 dupa ce am modificat docker-compose am recreat imaginile si am pornit containerele
-'''
+```
 teme@vm2:~/git-projects/proiect$ docker-compose -f docker/docker-compose.yml up -d
 Creating network "docker_default" with the default driver
 Creating docker_sytem-backup_1  ... done
@@ -367,7 +367,7 @@ teme@vm2:~/git-projects/proiect$ tree
 │   ├── log.sh
 │   └── system-state.log
 └── terraform
-'''
+```
 si le-am si oprit pentru ca se genereau f mult fisirele de backup
 docker-compose -f docker/docker-compose.yml down
 
@@ -381,7 +381,7 @@ Pe masina remote mai rulam si comanda:
 ansible@ansibleproiect:~$ echo "ansible ALL=(ALL) NOPASSWD:ALL" | sudo tee -a ansible-nopasswd
 ansible ALL=(ALL) NOPASSWD:ALL
 ---> pentru a putea executa comanda sudo fara parola
-'''
+```
 ansible@ansibleproiect:~$ groups
 ansible sudo vboxsf
 ansible@ansibleproiect:~$ docker --version
@@ -390,13 +390,13 @@ sudo snap install docker         # version 28.1.1+1, or
 sudo apt  install docker.io      # version 26.1.3-0ubuntu1~22.04.1
 sudo apt  install podman-docker  # version 3.4.4+ds1-1ubuntu1.22.04.3
 See 'snap info docker' for additional versions.
-'''
+```
 Am verificat ca pe masina remote nu este instalat docker si ca userulnou creat nu face parte din grup.
 
 [Install Docker] (https://docs.docker.com/engine/install/ubuntu/)
 
 urmarim pasii de instalare docker pentru a scrie pasii in playbook
-'''
+```
 <pre><font color="#26A269"><b>teme@vm2</b></font>:<font color="#12488B"><b>~/git-projects/proiect/ansible</b></font>$ ansible-playbook playbook.yml 
 <font color="#A347BA"><b>[WARNING]: No inventory was parsed, only implicit localhost is available</b></font>
 <font color="#A347BA"><b>[WARNING]: provided hosts list is empty, only localhost is available. Note that the implicit localhost does not match &apos;all&apos;</b></font>
@@ -406,11 +406,11 @@ PLAY [Install &amp; Configure Docker] ******************************************
 <font color="#2AA1B3">skipping: no hosts matched</font>
 
 PLAY RECAP ***************************************************************************************************************************************************</pre>
-'''
+```
 Solutii: rulam comanda: ansible-playbook -i playbook.yml 
 sau
 adaugam inventory.ini in etc/ansible/hosts
-'''
+```
 teme@vm2:~/git-projects/proiect/ansible$ ansible-playbook -i inventory playbook.yml 
 [WARNING]: Unable to parse /home/teme/git-projects/proiect/ansible/inventory as an inventory source
 [WARNING]: No inventory was parsed, only implicit localhost is available
@@ -463,4 +463,4 @@ Last login: Fri Aug  8 13:59:50 2025 from 192.168.0.11
 ansible@ansibleproiect:~$ exit
 logout
 Connection to 192.168.0.150 closed.
-'''
+```
