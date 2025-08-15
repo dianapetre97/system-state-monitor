@@ -1,6 +1,6 @@
 # Monitorizarea Starii unui Sistem
 
-![Logo](logo.png)
+![Logo](images/logo.png)
 
 ## Scopul Proiectului
 Proiectul presupune dezvoltarea unei platforme DevOps pentru monitorizarea stării unui sistem informatic folosind bash, Python, Docker, Ansible, Jenkins, AWS si Terraform. Utilizatorii vor putea observa evolutia utilizarii următoarelor resurse: cpu, memorie, număr de procese active și utilizare disk. Platforma trebuie să pastreze istoricul stării sistemelor pentru a le permite administratorilor de sistem să ia decizii legate de scalare.
