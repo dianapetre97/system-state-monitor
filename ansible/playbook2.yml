@@ -1,0 +1,29 @@
+- name: Run Docker Compose
+  hosts: server
+  become: true
+  vars:
+    host_project_path: "/home/teme/git-projects/proiect"
+    remote_project_path: "/home/ansible/git_projects/proiect"
+  tasks:
+    - name: Copy docker compose to the remote vm
+      copy:
+        src: "{{ host_project_path }}/"
+        dest: "{{ remote_project_path }}"
+    - name: Run docker-compose up in detached mode
+      command: docker compose -f docker/docker-compose.yml up -d
+      args: 
+        chdir: "{{ remote_project_path }}"
+    - name: Verify that containers are running
+      command: docker ps
+      register: docker_ps_output
+    - name: Display containers status
+      debug: 
+        msg: "Starea containerelor este: {{ docker_ps_output.stdout_lines }}"
+    - name: Find backup file
+      find:
+        path: "{{ remote_project_path }}/scripts/backup"
+        patterns: "system-state.log.*.backup"
+      register: backup_files
+    - name: Report backup files status
+      debug:
+        msg: "Au fost gasite fisierele de backup, s-a executat cu succes!"

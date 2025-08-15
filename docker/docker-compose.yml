@@ -1,24 +1,29 @@
 #name: Proiect System-state monitor
+
 services: 
   sytem-monitor:
-    #atribuim imaginii/containerului tag-ul cu care le-am creat
+    #atribuim imaginii un tag
     image: monitor-image
+    container_name: system-monitor
     build: 
-      context: .. (ne-am mutat in afara directorului "docker" unde este salvat docker-compose, deoarece scripturile sunt salvate in alt director, de aceea specificam claea catre dockerfile)
+      context: .. #(ne-am mutat in afara directorului "docker" unde este salvat docker-compose, deoarece scripturile sunt salvate in alt director, de aceea specificam claea catre dockerfile)
+
       dockerfile: docker/Dockerfile-monitor
     environment:
       - PERIOADA=5
     volumes: 
       - ../scripts:/src
   sytem-backup:
-    #atribuim imaginii/containerului tag-ul cu care le-am creat
+    #atribuim imaginii un tag
     image: backup-image
+    container_name: system-backup
     build: 
       context: ..
+
       dockerfile: docker/Dockerfile-backup
     environment:
       - BACKUP_INTERVAL=5
       - BACKUP_DIR_PATH=/src/backup
-      - SOURCE_FILe_PATH=/src/system-state.log
     volumes: 
       - ../scripts:/src
+    command: /src/system-state.log

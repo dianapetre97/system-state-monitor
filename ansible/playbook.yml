@@ -35,7 +35,7 @@
     - name: Install docker-ce
       apt:
         name: docker-ce
-        state: presents
+        state: present
     - name: Install docker compose
       apt:
         name: docker-compose-plugin

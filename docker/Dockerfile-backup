@@ -1,6 +1,4 @@
 FROM python
 WORKDIR /src
-COPY scripts/backup.py .
-ENV BACKUP_INTERVAL=5
-ENV BACKUP_DIR_PATH=backup
-CMD ["python", "backup.py", "system-state.log"]
+COPY scripts/backup.py /app/backup.py
+ENTRYPOINT ["python", "/app/backup.py"]
