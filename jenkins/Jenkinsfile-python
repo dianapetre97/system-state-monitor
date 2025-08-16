@@ -28,10 +28,8 @@ pipeline {
         }
         stage('Build Docker Image') {
             steps {
-            	dir("${WORKDIR}") {
                 script {
                     dockerImage = docker.build("${IMAGE_NAME}:${TAG}", "-f docker/Dockerfile-backup .")
-                }
                }
             }
         }
