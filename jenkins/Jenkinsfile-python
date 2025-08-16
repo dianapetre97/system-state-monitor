@@ -6,11 +6,6 @@ pipeline {
         IMAGE_NAME = "diana.petre97/python"
 	} 
 	stages {
-		stage ('Checkout'){
-			steps{
-				git url: 'https://github.com/dianapetre97/system-state-monitor'
-			}
-		}
       	stage('Lint') {
             steps {
                     sh 'pip install flake8 '
