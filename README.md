@@ -565,7 +565,7 @@ De fiecare data trebuie sa pornim containerul de localstack cu comadna: **lst st
 ## Resurse
 - [Install Docker](https://docs.docker.com/engine/install/ubuntu/)
 
-- [Docker compose documentation]https://docs.docker.com/reference/compose-file/build/)
+- [Docker compose documentation](https://docs.docker.com/reference/compose-file/build/)
 
 - [AWS Documentation](https://registry.terraform.io/providers/hashicorp/aws/latest/docs)
 
