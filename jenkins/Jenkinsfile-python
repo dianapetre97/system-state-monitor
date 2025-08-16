@@ -3,21 +3,36 @@ pipeline {
 	agent { label 'docker && pip' }
 	environment {
 		DOCKERHUB_CREDENTIALS = 'docker-credentials'
+		TAG = "${BUILD_NUMBER}"
+		WORKDIR = "${env.WORKSPACE}/jenkins"
         IMAGE_NAME = "dianapetre97/python"
 	} 
 	stages {
       	stage('Lint') {
             steps {
-                sh 'pip install flake8'
-                // Ignorăm erorile de linting pentru a continua pipeline-ul
-                sh 'python3 -m flake8 scripts/backup.py || true' 
+            	dir("${WORKDIR}") {
+	                sh 'pip install flake8'
+	                // Ignorăm erorile de linting pentru a continua pipeline-ul
+	                sh 'flake8 app.py || true'
+	                }
                 }
             }
+        stage('Test') {
+            steps {
+            	dir("${WORKDIR}") {
+                    sh 'pip install -r requirements.txt '
+                    sh 'python3 -m pytest test_app.py --junitxml=report.xml'
+                    junit 'report.xml'
+                    }
+            }
+        }
         stage('Build Docker Image') {
             steps {
+            	dir("${WORKDIR}") {
                 script {
-                        dockerImage = docker.build("${IMAGE_NAME}:${env.BUILD_ID}", "-f docker/Dockerfile-backup .")
+                    dockerImage = docker.build("${IMAGE_NAME}:${TAG}", "-f docker/Dockerfile-backup .")
                 }
+               }
             }
         }
         stage('Push to Docker Hub?') {
