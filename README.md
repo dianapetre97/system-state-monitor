@@ -562,9 +562,9 @@ aws sudo docker vboxsf
 ```
 De fiecare data trebuie sa pornim containerul de localstack cu comadna: **lst start**
 Comenzi de rulare:
-tf init
-tf plan
-tf apply
+- tf init
+- tf plan
+- tf apply
 Daca vrem sa vedem starea curenta: tf show
 
 ## Resurse
