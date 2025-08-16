@@ -9,7 +9,6 @@ Proiectul presupune dezvoltarea unei platforme DevOps pentru monitorizarea stăr
 
 Proiectul este structurat astfel incat fiecare tehnologie folosita sa se afle in director separat. 
 
-
 ```
 teme@vm2:~/git-projects/proiect$ tree
 .
@@ -36,7 +35,7 @@ teme@vm2:~/git-projects/proiect$ tree
 └── terraform
 
 ```
-Pentru fiecare cerinta am creat cate un director pentru a avea o mai buna organizare
+
 ## Setup si Rulare
 ### Scriptul de bash
 
@@ -68,7 +67,7 @@ c6633985d184cbb43f74768870521e9e
 
 **Docker** pentru împachetarea scripturilor în containere.
 
-Verificam daca este instalat docker, daca nu este putem urmari pasii de instalare din documentatie: [Install Docker] (https://docs.docker.com/engine/install/ubuntu/)
+Verificam daca este instalat docker, daca nu este putem urmari pasii de instalare din documentatie.
 
 ```
 teme@vm2:~/git-projects/proiect$ docker --version
@@ -236,8 +235,6 @@ Deleted: sha256:7f2e8fa2d74b1fd339e86938ed75b45fcc03a8714a8e10b3789b8477fb559fd2
 **Docker Compose** este folosit pentru rularea locală a platformei.
 
 Rularea docker compose:
-
-[Docker compose documentation] (https://docs.docker.com/reference/compose-file/build/)
 
 Am pornit containerele
 ```
@@ -567,6 +564,9 @@ De fiecare data trebuie sa pornim containerul de localstack cu comadna: **lst st
 
 ## Resurse
 [Install Docker] (https://docs.docker.com/engine/install/ubuntu/)
+
+[Docker compose documentation] (https://docs.docker.com/reference/compose-file/build/)
+
 [AWS Documentation] (https://registry.terraform.io/providers/hashicorp/aws/latest/docs)
 
 [Sintaxa Markdown](https://www.markdownguide.org/cheat-sheet/)
