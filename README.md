@@ -281,7 +281,7 @@ teme@vm2:~/git-projects/proiect$ tree
 Si le-am oprit pentru ca se genereau foarte mult fisirele de backup cu comanda: 
 **docker-compose -f docker/docker-compose.yml down**
 
-## ANSIBLE
+### ANSIBLE
 
 **Ansible** este folosit pentru instalarea platformei pe un server remote.
 
@@ -467,7 +467,7 @@ system-state.log.2025-08-13-15-01-10.backup  system-state.log.2025-08-13-15-01-2
 system-state.log.2025-08-13-15-01-15.backup  system-state.log.2025-08-13-15-01-30.backup  system-state.log.2025-08-13-15-01-45.backup
 ```
 
-## JENKINS
+### JENKINS
 
 **Jenkins** este folosit pentru construirea pipeline-urilor CI/CD.
 
@@ -544,7 +544,8 @@ Am creat un user nou caruiam i-am atribuit un rol nou si am creat un view in car
 ![Pipeline](images/16.png)
 
 
-## Terraform & AWS 
+### Terraform & AWS 
+
 **AWS și Terraform** sunt folosite pentru provizionarea infrastructurii platformei, in cazul nostru, totul este local.
 
 Trebuie sa avem instalat :
