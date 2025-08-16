@@ -9,7 +9,8 @@ pipeline {
       	stage('Lint') {
             steps {
                 sh 'pip install flake8'
-                sh 'python3 -m flake8 scripts/backup.py || true' # ignoram cateva erori
+                // Ignorăm erorile de linting pentru a continua pipeline-ul
+                sh 'python3 -m flake8 scripts/backup.py || true' 
                 }
             }
         stage('Build Docker Image') {
