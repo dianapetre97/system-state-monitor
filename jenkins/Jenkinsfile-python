@@ -3,7 +3,7 @@ pipeline {
 	agent { label 'docker && pip' }
 	environment {
 		DOCKERHUB_CREDENTIALS = 'docker-credentials'
-        IMAGE_NAME = "diana.petre97/python"
+        IMAGE_NAME = "dianapetre97/python"
 	} 
 	stages {
       	stage('Lint') {
@@ -61,7 +61,7 @@ pipeline {
 
             steps {
                 script {
-                    docker.withRegistry('https://index.docker.io', DOCKERHUB_CREDENTIALS) {
+                    docker.withRegistry('', DOCKERHUB_CREDENTIALS) {
                         dockerImage.push()
                         dockerImage.push('latest')
                     }
@@ -71,7 +71,7 @@ pipeline {
             post {
                 success {
                     echo 'Push-ul a fost realizat cu succes!'
-                    echo 'Vezi imagaginea aici: https://hub.docker.com/repository/docker/diana.petre97/python'
+                    echo 'Vezi imagaginea aici: https://hub.docker.com/repository/docker/dianapetre97/python'
                 }
 
                 failure {
