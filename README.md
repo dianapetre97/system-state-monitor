@@ -561,12 +561,20 @@ aws@aws:~/system-state-monitor/terraform$ groups
 aws sudo docker vboxsf
 ```
 De fiecare data trebuie sa pornim containerul de localstack cu comadna: **lst start**
+Comenzi de rulare:
+tf init
+tf plan
+tf apply
+Daca vrem sa vedem starea curenta: tf show
 
 ## Resurse
 - [Install Docker](https://docs.docker.com/engine/install/ubuntu/)
 
 - [Docker compose documentation](https://docs.docker.com/reference/compose-file/build/)
 
+- [Cont Docker Hub](https://hub.docker.com/repositories/dianapetre97)  
+
 - [AWS Documentation](https://registry.terraform.io/providers/hashicorp/aws/latest/docs)
 
 - [Sintaxa Markdown](https://www.markdownguide.org/cheat-sheet/)
+
