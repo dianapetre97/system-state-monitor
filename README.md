@@ -295,24 +295,6 @@ sudo apt  install podman-docker  # version 3.4.4+ds1-1ubuntu1.22.04.3
 See 'snap info docker' for additional versions.
 ```
 Am verificat ca pe masina remote nu este instalat docker si ca userulnou creat nu face parte din grup.
-
-[Install Docker] (https://docs.docker.com/engine/install/ubuntu/)
-
-urmarim pasii de instalare docker pentru a scrie pasii in playbook
-```
-<pre><font color="#26A269"><b>teme@vm2</b></font>:<font color="#12488B"><b>~/git-projects/proiect/ansible</b></font>$ ansible-playbook playbook.yml 
-<font color="#A347BA"><b>[WARNING]: No inventory was parsed, only implicit localhost is available</b></font>
-<font color="#A347BA"><b>[WARNING]: provided hosts list is empty, only localhost is available. Note that the implicit localhost does not match &apos;all&apos;</b></font>
-<font color="#A347BA"><b>[WARNING]: Could not match supplied host pattern, ignoring: server</b></font>
-
-PLAY [Install &amp; Configure Docker] **************************************************************************************************************************************************************************
-<font color="#2AA1B3">skipping: no hosts matched</font>
-
-PLAY RECAP ***************************************************************************************************************************************************</pre>
-```
-Solutii: rulam comanda: ansible-playbook -i playbook.yml 
-Sau
-Adaugam inventory.ini in etc/ansible/hosts
 ```
 teme@vm2:~/git-projects/proiect/ansible$ ansible-playbook -i inventory playbook.yml 
 [WARNING]: Unable to parse /home/teme/git-projects/proiect/ansible/inventory as an inventory source
@@ -529,3 +511,42 @@ Am creat un user nou caruiam i-am atribuit un rol nou si am creat un view in car
 ![Pipeline](images/14.png)
 ![Pipeline](images/15.png)
 ![Pipeline](images/16.png)
+
+
+## Terraform & AWS 
+
+Trebuie sa avem instalat :
+```
+aws@aws:~/system-state-monitor/terraform$ localstack --version
+LocalStack CLI 4.5.0
+
+```
+Si python3 
+```
+aws@aws:~/system-state-monitor/terraform$ python3 --version
+Python 3.10.12
+```
+Si Terraform
+```
+aws@aws:~/system-state-monitor/terraform$ terraform --version
+Terraform v1.12.2
+on linux_amd64
++ provider registry.terraform.io/hashicorp/aws v6.0.0
+```
+Si AWS
+```
+aws@aws:~/system-state-monitor/terraform$ aws --version
+aws-cli/1.22.34 Python/3.10.12 Linux/6.8.0-60-generic botocore/1.38.41
+```
+Userul trebuie sa fien adaugat in grupul de useri aws
+```
+aws@aws:~/system-state-monitor/terraform$ groups
+aws sudo docker vboxsf
+```
+De fiecare data trebuie sa pornim containerul de localstack cu comadna: **lst start**
+
+## Resurse
+[Install Docker] (https://docs.docker.com/engine/install/ubuntu/)
+[AWS Documentation] (https://registry.terraform.io/providers/hashicorp/aws/latest/docs)
+
+[Sintaxa Markdown](https://www.markdownguide.org/cheat-sheet/)
