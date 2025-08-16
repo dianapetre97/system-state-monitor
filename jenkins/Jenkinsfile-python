@@ -12,7 +12,7 @@ pipeline {
             steps {
 	                sh 'pip install flake8'
 	                // Ignorăm erorile de linting pentru a continua pipeline-ul
-	                sh 'python3 -m flake8 scripts/backup.py' || true'
+	                sh 'python3 -m flake8 scripts/backup.py || true'
                 }
             }
         stage('Test') {
