@@ -6,6 +6,10 @@
 Proiectul presupune dezvoltarea unei platforme DevOps pentru monitorizarea stării unui sistem informatic folosind bash, Python, Docker, Ansible, Jenkins, AWS si Terraform. Utilizatorii vor putea observa evolutia utilizarii următoarelor resurse: cpu, memorie, număr de procese active și utilizare disk. Platforma trebuie să pastreze istoricul stării sistemelor pentru a le permite administratorilor de sistem să ia decizii legate de scalare.
 
 ## Structura proiectului
+
+Proiectul este structurat astfel incat fiecare tehnologie folosita sa se afle in director separat. 
+
+
 ```
 teme@vm2:~/git-projects/proiect$ tree
 .
@@ -34,12 +38,18 @@ teme@vm2:~/git-projects/proiect$ tree
 ```
 Pentru fiecare cerinta am creat cate un director pentru a avea o mai buna organizare
 ## Setup si Rulare
-### Incepem cu scriptul de bash
+### Scriptul de bash
+
+**Bash** pentru realizarea scriptului de monitorizare stare sistem.
+
 Pentru a putea rula scriptul trebuie sa dam permisiuni de executie: chmod +x log.sh
 Rulam ./log.sh 
 Cat system-state.log 
 
 ### Scriptul de python
+
+**Python** pentru realizarea scriptului de backup al informațiilor de sistem colectate
+
 Trebuie instalat python3
 teme@vm2:~/git-projects/proiect$ python3 --version
 Python 3.10.12
@@ -55,6 +65,9 @@ c6633985d184cbb43f74768870521e9e
 
 ```
 ### Docker
+
+**Docker** pentru împachetarea scripturilor în containere.
+
 Verificam daca este instalat docker, daca nu este putem urmari pasii de instalare din documentatie: [Install Docker] (https://docs.docker.com/engine/install/ubuntu/)
 
 ```
@@ -220,6 +233,8 @@ Deleted: sha256:7f2e8fa2d74b1fd339e86938ed75b45fcc03a8714a8e10b3789b8477fb559fd2
 
 ```
 
+**Docker Compose** este folosit pentru rularea locală a platformei.
+
 Rularea docker compose:
 
 [Docker compose documentation] (https://docs.docker.com/reference/compose-file/build/)
@@ -270,6 +285,8 @@ Si le-am oprit pentru ca se genereau foarte mult fisirele de backup cu comanda:
 **docker-compose -f docker/docker-compose.yml down**
 
 ## ANSIBLE
+
+**Ansible** este folosit pentru instalarea platformei pe un server remote.
 
 Am instalat o noua masina virtuala, cu aceleasi caracteristici ca masina main. Pe masina remote am creat userul "remote"
 
@@ -455,6 +472,8 @@ system-state.log.2025-08-13-15-01-15.backup  system-state.log.2025-08-13-15-01-3
 
 ## JENKINS
 
+**Jenkins** este folosit pentru construirea pipeline-urilor CI/CD.
+
 In directorul Jenkins/setup copiem cele doua fisiere pentru a putea rula Jenkins.
 
 ```
@@ -514,6 +533,7 @@ Am creat un user nou caruiam i-am atribuit un rol nou si am creat un view in car
 
 
 ## Terraform & AWS 
+**AWS și Terraform** sunt folosite pentru provizionarea infrastructurii platformei, in cazul nostru, totul este local.
 
 Trebuie sa avem instalat :
 ```
