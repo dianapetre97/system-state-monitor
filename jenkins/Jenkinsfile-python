@@ -8,8 +8,9 @@ pipeline {
 	stages {
       	stage('Lint') {
             steps {
-                    sh 'pip install flake8 '
-                    sh 'python3 -m flake8 .'
+                sh 'sudo apt-get update'
+                sh 'sudo apt-get install python3-flake8'
+                sh 'python3 -m flake8 scripts/backup.py'
                 }
             }
         stage('Build Docker Image') {
