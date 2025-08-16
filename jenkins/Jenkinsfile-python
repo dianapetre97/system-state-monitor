@@ -1,0 +1,89 @@
+pipeline {
+	
+	agent any
+	environment {
+		DOCKERHUB_CREDENTIALS = 'docker-credentials'
+        IMAGE_NAME = "diana.petre97/python"
+	} 
+	stages {
+		stage ('Checkout'){
+			steps{
+				git url: 'https://github.com/dianapetre97/system-state-monitor'
+			}
+		}
+      	stage('Lint') {
+            steps {
+                    sh 'pip install flake8 '
+                    sh 'python3 -m flake8 .'
+                }
+            }
+        stage('Build Docker Image') {
+            steps {
+                script {
+                        dockerImage = docker.build("${IMAGE_NAME}:${env.BUILD_ID}", "-f docker/Dockerfile-backup .")
+                }
+            }
+        }
+        stage('Push to Docker Hub?') {
+            steps {
+                script {
+
+                    def confirmare = 'Nu'
+                    try {
+                        timeout(time: 2, unit: 'MINUTES') {
+                            confirmare = input(
+                                message: 'Vrei sa dai push imaginii in Docker Hub?',
+                                ok: 'Continua',
+                                parameters: [
+                                    choice(name: 'CONFIRM', choices: ['Da', 'Nu'], description: "Selecteaza o optiune") 
+                                ]
+                            )
+                        }
+                    } catch (err) {
+                        echo "Timpul de raspuns a expirat. Consideram alegerea: Nu"
+                    }
+
+                    echo "Alegerea ta este: ${confirmare}"
+
+                    if (confirmare == 'Da') {
+                        env.PUSH_TO_DOCKERHUB = 'true'
+                    } else {
+                        env.PUSH_TO_DOCKERHUB = 'false'
+                    }
+
+                }
+            }
+
+        }
+
+        stage('Push to Docker Hub') {
+            when {
+                expression {
+                    return env.PUSH_TO_DOCKERHUB == 'true'
+                }
+            }
+
+            steps {
+                script {
+                    docker.withRegistry('https://index.docker.io', DOCKERHUB_CREDENTIALS) {
+                        dockerImage.push()
+                        dockerImage.push('latest')
+                    }
+                }
+            }
+
+            post {
+                success {
+                    echo 'Push-ul a fost realizat cu succes!'
+                    echo 'Vezi imagaginea aici: https://hub.docker.com/repository/docker/diana.petre97/python'
+                }
+
+                failure {
+                   echo 'Push-ul a esuat!! Verficia logurile din consola!'
+                }
+            }
+
+        }
+    }
+
+}
