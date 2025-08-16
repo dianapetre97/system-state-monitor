@@ -1,16 +1,22 @@
 pipeline {
 	
-	agent any
+	agent { label 'docker && pip' }
 	environment {
 		DOCKERHUB_CREDENTIALS = 'docker-credentials'
         IMAGE_NAME = "diana.petre97/python"
 	} 
 	stages {
+		stage('Build Docker Image') {
+            steps {
+                script {
+                    dockerImage = docker.build("${IMAGE_NAME}:${env.BUILD_ID}", "-f docker/Dockerfile-backup .")
+                }
+            }
+        }
       	stage('Lint') {
             steps {
-                sh 'sudo apt-get update'
-                sh 'sudo apt-get install python3-flake8'
-                sh 'python3 -m flake8 scripts/backup.py'
+                sh 'pip install flake8 '
+                sh 'python3 -m flake8 .'
                 }
             }
         stage('Build Docker Image') {
