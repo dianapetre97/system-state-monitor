@@ -485,13 +485,17 @@ jenkins  | 2025-08-15 18:15:38.397+0000 [id=1]  WARNING o.e.j.ee9.nested.Context
 
 ```
 Deschidem o instanta noua, si verificam adresa ip pentru a putea accesa jenkins.
+
 Prima data cand intram trebuie sa introducem cheia si sa cream un user.
+
 Pentru a rezolva prima cerinta, trebuie sa configuram un agent pe masina remote (aceeasi masina pe care am rulat si ansible) si sa adaugam credentialele de docker.
+
 Trebuie sa instalam si doua plug-inuri: Blue Ocean si Role-based Authorization Strategy.
 
 ![Docker credentials in Jenkins](images/1.png)
 
 Pentru configurarea agentului, trebuie sa copiem cheia publica de pe masina remote si sa o adaugam in jenkins. Avem nevoie si de adresa ip a masinii.
+
 ![Agent Config](images/5.png)
 
 Configuram pipelinurile astfel incat Jenkinsfileurile sa fie citite direct din Git
