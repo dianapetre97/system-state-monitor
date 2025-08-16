@@ -520,3 +520,12 @@ Imaginea s-a incarcat pe DockerHub
 Cazul in care nu vrem sa incarcam imaginea pe DockerHub
 
 ![Pipeline](images/12.png)
+
+Procedam la fel si pentru scriptul de bash. 
+
+Am creat un user nou caruiam i-am atribuit un rol nou si am creat un view in care poate vede doar cele 2 pipelineuri
+
+![Pipeline](images/13.png)
+![Pipeline](images/14.png)
+![Pipeline](images/15.png)
+![Pipeline](images/16.png)
