@@ -1,0 +1,79 @@
+pipeline {
+	
+	agent { label 'docker && pip' }
+	environment {
+		DOCKERHUB_CREDENTIALS = 'docker-credentials'
+		TAG = "${BUILD_NUMBER}"
+        IMAGE_NAME = "dianapetre97/monitor"
+	} 
+	stages {
+        stage('Build Docker Image') {
+            steps {
+                script {
+                    dockerImage = docker.build("${IMAGE_NAME}:${TAG}", "-f docker/Dockerfile-monitor .")
+               }
+            }
+        }
+        stage('Push to Docker Hub?') {
+            steps {
+                script {
+
+                    def confirmare = 'Nu'
+                    try {
+                        timeout(time: 2, unit: 'MINUTES') {
+                            confirmare = input(
+                                message: 'Vrei sa dai push imaginii in Docker Hub?',
+                                ok: 'Continua',
+                                parameters: [
+                                    choice(name: 'CONFIRM', choices: ['Da', 'Nu'], description: "Selecteaza o optiune") 
+                                ]
+                            )
+                        }
+                    } catch (err) {
+                        echo "Timpul de raspuns a expirat. Consideram alegerea: Nu"
+                    }
+
+                    echo "Alegerea ta este: ${confirmare}"
+
+                    if (confirmare == 'Da') {
+                        env.PUSH_TO_DOCKERHUB = 'true'
+                    } else {
+                        env.PUSH_TO_DOCKERHUB = 'false'
+                    }
+
+                }
+            }
+
+        }
+
+        stage('Push to Docker Hub') {
+            when {
+                expression {
+                    return env.PUSH_TO_DOCKERHUB == 'true'
+                }
+            }
+
+            steps {
+                script {
+                    docker.withRegistry('', DOCKERHUB_CREDENTIALS) {
+                        dockerImage.push()
+                        dockerImage.push('latest')
+                    }
+                }
+            }
+
+            post {
+                success {
+                    echo 'Push-ul a fost realizat cu succes!'
+                    echo 'Vezi imagaginea aici: https://hub.docker.com/repository/docker/dianapetre97/monitor'
+                }
+
+                failure {
+                   echo 'Push-ul a esuat!! Verficia logurile din consola!'
+                }
+            }
+
+        }
+    }
+
+}
