@@ -516,3 +516,7 @@ Dupa ce am creat, rulam in Jenkins si vizualizam rezultatul in Blue Ocean
 Imaginea s-a incarcat pe DockerHub
 
 ![Pipeline](images/11.png)
+
+Cazul in care nu vrem sa incarcam imaginea pe DockerHub
+
+![Pipeline](images/12.png)
