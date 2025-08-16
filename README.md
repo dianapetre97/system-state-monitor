@@ -565,6 +565,7 @@ Comenzi de rulare:
 - tf init
 - tf plan
 - tf apply
+
 Daca vrem sa vedem starea curenta: tf show
 
 ## Resurse
