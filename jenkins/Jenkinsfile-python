@@ -8,8 +8,8 @@ pipeline {
 	stages {
       	stage('Lint') {
             steps {
-                   sh 'pip install flake8 '
-                   sh 'python3 -m flake8 .' scripts/backup.py'
+                sh 'pip install flake8'
+                sh 'python3 -m flake8 scripts/backup.py'
                 }
             }
         stage('Build Docker Image') {
