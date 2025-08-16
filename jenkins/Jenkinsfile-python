@@ -6,13 +6,6 @@ pipeline {
         IMAGE_NAME = "diana.petre97/python"
 	} 
 	stages {
-		stage('Build Docker Image') {
-            steps {
-                script {
-                    dockerImage = docker.build("${IMAGE_NAME}:${env.BUILD_ID}", "-f docker/Dockerfile-backup .")
-                }
-            }
-        }
       	stage('Lint') {
             steps {
                 sh 'pip install flake8 '
