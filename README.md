@@ -563,10 +563,10 @@ aws sudo docker vboxsf
 De fiecare data trebuie sa pornim containerul de localstack cu comadna: **lst start**
 
 ## Resurse
-[Install Docker] (https://docs.docker.com/engine/install/ubuntu/)
+- [Install Docker](https://docs.docker.com/engine/install/ubuntu/)
 
-[Docker compose documentation] (https://docs.docker.com/reference/compose-file/build/)
+- [Docker compose documentation] https://docs.docker.com/reference/compose-file/build/)
 
-[AWS Documentation] (https://registry.terraform.io/providers/hashicorp/aws/latest/docs)
+- [AWS Documentation](https://registry.terraform.io/providers/hashicorp/aws/latest/docs)
 
-[Sintaxa Markdown](https://www.markdownguide.org/cheat-sheet/)
+- [Sintaxa Markdown](https://www.markdownguide.org/cheat-sheet/)
