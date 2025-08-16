@@ -1,6 +1,6 @@
 FROM python:3.11-slim
 
-WORKDIR /app
+WORKDIR /src
 
 COPY requirements.txt .
 
@@ -10,4 +10,6 @@ COPY app.py .
 
 EXPOSE 8090
 
-CMD ["python", "app.py"]
+COPY scripts/backup.py /app/backup.py
+
+ENTRYPOINT ["python", "/app/backup.py"]

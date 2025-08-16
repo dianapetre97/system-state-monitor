@@ -266,7 +266,7 @@ teme@vm2:~/git-projects/proiect$ tree
 │   └── system-state.log
 └── terraform
 ```
-Si le-amoprit pentru ca se genereau foarte mult fisirele de backup
+Si le-am oprit pentru ca se genereau foarte mult fisirele de backup cu comanda: 
 **docker-compose -f docker/docker-compose.yml down**
 
 ## ANSIBLE
@@ -488,3 +488,31 @@ jenkins  | 2025-08-15 18:15:38.397+0000 [id=1]  WARNING o.e.j.ee9.nested.Context
 ```
 Deschidem o instanta noua, si verificam adresa ip pentru a putea accesa jenkins.
 Prima data cand intram trebuie sa introducem cheia si sa cream un user.
+Pentru a rezolva prima cerinta, trebuie sa configuram un agent pe masina remote (aceeasi masina pe care am rulat si ansible) si sa adaugam credentialele de docker.
+
+![Docker credentials in Jenkins](images/1.png)
+
+Pentru configurarea agentului, trebuie sa copiem cheia publica de pe masina remote si sa o adaugam in jenkins. Avem nevoie si de adresa ip a masinii.
+![Agent Config](images/5.png)
+
+Configuram pipelinurile astfel incat Jenkinsfileurile sa fie citite direct din Git
+![Create Pipeline](images/2.png)
+![Create Pipeline](images/3.png)
+![Create Pipeline](images/4.png)
+
+Pe langa Jenkinsfile mai avem nevoie de:
+- requierments.txt --> contine lista de packete necesare pentru a rula testele
+- Dockerfile
+- app.py
+- test_app.py --> contine testele unitare
+
+Dupa ce am creat, rulam in Jenkins si vizualizam rezultatul in Blue Ocean
+![Pipeline](images/6.png)
+![Pipeline](images/7.png)
+![Pipeline](images/8.png)
+![Pipeline](images/9.png)
+![Pipeline](images/10.png)
+
+Imaginea s-a incarcat pe DockerHub
+
+![Pipeline](images/11.png)

@@ -1,5 +1,4 @@
-from app import app
-
+from scripts.backup import make_backup
 
 def test_root_route():
     client = app.test_client()
