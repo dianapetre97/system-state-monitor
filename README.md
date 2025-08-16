@@ -504,11 +504,26 @@ Pe langa Jenkinsfile mai avem nevoie de:
 - app.py
 - test_app.py --> contine testele unitare
 
-Dupa ce am creat, rulam in Jenkins si vizualizam rezultatul in Blue Ocean
+Dupa ce am creat, rulam in Jenkins si vizualizam rezultatul in Blue Ocean.
+
+Primul stage din pipeline este stage-ul de lint. Cu ajutorul acestuia verificam sintaxa de python, daca este corecta, daca respecta standardele.
+
 ![Pipeline](images/6.png)
+
+Al doila stage este cel in care rulam testele unitare pentru a verifica daca codul Python e corect.
+
 ![Pipeline](images/7.png)
+
+Al reilea stage e cel in care construim imaginea de Docker
+
 ![Pipeline](images/8.png)
+
+Al  patrulea stage e cel in care cerem uitilizatorului un input, daca este de acord sa incarce imaginea builduita anterior pe DockerHub sau nu.
+
 ![Pipeline](images/9.png)
+
+Imaginea a fost incarcata cu succes pe DockerHub
+
 ![Pipeline](images/10.png)
 
 Imaginea s-a incarcat pe DockerHub
