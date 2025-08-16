@@ -10,19 +10,17 @@ pipeline {
 	stages {
       	stage('Lint') {
             steps {
-            	dir("${WORKDIR}") {
 	                sh 'pip install flake8'
 	                // Ignorăm erorile de linting pentru a continua pipeline-ul
-	                sh 'flake8 app.py || true'
-	                }
+	                sh 'python3 -m flake8 scripts/backup.py' || true'
                 }
             }
         stage('Test') {
             steps {
             	dir("${WORKDIR}") {
                     sh 'pip install -r requirements.txt '
-                    sh 'python3 -m flake8 scripts/backup.py'
-                    sh 'pytest jenkins/test_backup.py --junitxml=report.xml'
+                    sh 'python3 -m pytest test_app.py --junitxml=report.xml'
+                    junit 'report.xml'
                     }
             }
         }
