@@ -35,9 +35,10 @@ teme@vm2:~/git-projects/proiect$ tree
 Pentru fiecare cerinta am creat cate un director pentru a avea o mai buna organizare
 ## Setup si Rulare
 ### Incepem cu scriptul de bash
-pentru a putea rula scriptul trebuie sa dam permisiuni de executie: chmod +x log.sh
-rulam ./log.sh 
-cat system-state.log 
+Pentru a putea rula scriptul trebuie sa dam permisiuni de executie: chmod +x log.sh
+Rulam ./log.sh 
+Cat system-state.log 
+
 ### Scriptul de python
 Trebuie instalat python3
 teme@vm2:~/git-projects/proiect$ python3 --version
@@ -221,11 +222,9 @@ Deleted: sha256:7f2e8fa2d74b1fd339e86938ed75b45fcc03a8714a8e10b3789b8477fb559fd2
 
 Rularea docker compose:
 
-Am consultat documentatia in incercarea de a rezolva eroarea: 
-
 [Docker compose documentation] (https://docs.docker.com/reference/compose-file/build/)
 
-Dupa ce am modificat docker-compose am recreat imaginile si am pornit containerele
+Am pornit containerele
 ```
 teme@vm2:~/git-projects/proiect$ docker compose -f docker/docker-compose.yml up -d
 Creating network "docker_default" with the default driver
@@ -267,8 +266,8 @@ teme@vm2:~/git-projects/proiect$ tree
 │   └── system-state.log
 └── terraform
 ```
-si le-am si oprit pentru ca se genereau f mult fisirele de backup
-docker-compose -f docker/docker-compose.yml down
+Si le-amoprit pentru ca se genereau foarte mult fisirele de backup
+**docker-compose -f docker/docker-compose.yml down**
 
 ## ANSIBLE
 
